@@ -5,7 +5,7 @@ class TreeNode extends StatefulWidget {
   final int level;
   final bool expanded;
   final bool icon;
-  final String selectedNode;
+  final bool selected;
   final double offsetLeft;
   final List<Widget> children;
 
@@ -19,7 +19,7 @@ class TreeNode extends StatefulWidget {
     this.level = 0,
     this.expanded = false,
     this.icon = false,
-    this.selectedNode = '',
+    this.selected = false,
     this.offsetLeft = 24.0,
     this.children = const [],
     this.label = 'Title',
@@ -34,12 +34,10 @@ class TreeNode extends StatefulWidget {
 class _TreeNodeState extends State<TreeNode>
     with SingleTickerProviderStateMixin {
   bool _isExpanded = false;
-  bool _isSelected = false;
   Widget _icon;
 
   initState() {
     _isExpanded = widget.expanded;
-    _isSelected = widget.selectedNode == widget.id;
     _icon =
         widget.onIcon != null && widget.onIcon is Function && widget.id != null
             ? widget.onIcon(widget.id)
@@ -72,7 +70,7 @@ class _TreeNodeState extends State<TreeNode>
                           padding: EdgeInsets.zero,
                           icon: Icon(_isExpanded
                               ? Icons.arrow_drop_down
-                              : Icons.arrow_right),
+                              : Icons.arrow_right, color: Colors.white,),
                           iconSize: 24,
                           onPressed: null,
                         ),
@@ -92,20 +90,22 @@ class _TreeNodeState extends State<TreeNode>
                       _isExpanded = !_isExpanded;
                     });
                     if (widget.onNodeTap != null &&
-                        widget.onNodeTap is Function) {
-                      widget.onNodeTap();
+                        widget.onNodeTap is Function && widget.children.length == 0) {
+                      widget.onNodeTap(widget.id ?? '');
                     }
                   },
                   child: Row(
                     children: [
                       _icon,
-                      Padding(
-                        padding: EdgeInsets.all(4),
-                        child: Text(widget.label,
-                            style: TextStyle(
-                                color: _isSelected ? Colors.blue : Colors.grey,
-                                fontSize: 16)),
-                      )
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          child: Text(widget.label,
+                              style: TextStyle(
+                                  color: widget.selected ? Colors.blue : Colors.grey,
+                                  fontSize: 16)),
+                        ),
+                      ),
                     ],
                   ),
                 ),

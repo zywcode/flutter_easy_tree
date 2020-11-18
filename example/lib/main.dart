@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
           offsetLeft: 30,
           data: treeData,
           onIcon: (String id) {
-            print('id: ${id}');
             return SizedBox.shrink();
 //            return IconButton(
 //              icon: Icon(Icons.star_border),
