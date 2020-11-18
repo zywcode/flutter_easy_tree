@@ -21,11 +21,13 @@ class TreeView extends StatelessWidget {
 
     for (int i = 0; i < list.length; i++) {
       final Map<String, dynamic> item = list[i];
+      final id = item['id'] ?? '';
       final label = item['label'] ?? '';
       final expanded = item['expanded'] ?? false;
       final children = item['children'] as List;
 
       treeNodes.add(TreeNode(
+        id: id,
         label: label,
         expanded: expanded,
         offsetLeft: offsetLeft,
@@ -44,11 +46,13 @@ class TreeView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(data.length, (int index) {
         final Map<String, dynamic> item = data[index];
+        final id = item['id'] ?? '';
         final label = item['label'] ?? '';
         final expanded = item['expanded'] ?? false;
         final children = item['children'] as List;
 
         return TreeNode(
+          id: id,
           label: label,
           expanded: expanded,
           offsetLeft: offsetLeft,

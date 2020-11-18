@@ -40,8 +40,10 @@ class _TreeNodeState extends State<TreeNode>
   initState() {
     _isExpanded = widget.expanded;
     _isSelected = widget.selectedNode == widget.id;
-//    _icon = widget.onIcon != null && widget.onIcon is Function && widget.id != null ? widget.onIcon(widget.id) : null;
-    _icon = Text('');
+    _icon =
+        widget.onIcon != null && widget.onIcon is Function && widget.id != null
+            ? widget.onIcon(widget.id)
+            : SizedBox.shrink();
     super.initState();
   }
 
@@ -63,23 +65,32 @@ class _TreeNodeState extends State<TreeNode>
                 visible: children != null && children.length > 0,
                 child: Center(
                   child: GestureDetector(
-                      child: children != null && children.length > 0 ? IconButton(
-                        icon: Icon(_isExpanded ? Icons.arrow_drop_down : Icons.arrow_right),
-                        iconSize: 24,
-                        onPressed: null,
-                      ) : null,
+                      child: SizedBox(
+                        width: 30,
+                        height: 30,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          icon: Icon(_isExpanded
+                              ? Icons.arrow_drop_down
+                              : Icons.arrow_right),
+                          iconSize: 24,
+                          onPressed: null,
+                        ),
+                      ),
                       onTap: () {
                         setState(() {
                           _isExpanded = !_isExpanded;
                         });
-                      }
-                  ),
+                      }),
                 ),
               ),
 //              SizedBox(width: 6.0),
               Expanded(
                 child: GestureDetector(
                   onTap: () {
+                    setState(() {
+                      _isExpanded = !_isExpanded;
+                    });
                     if (widget.onNodeTap != null &&
                         widget.onNodeTap is Function) {
                       widget.onNodeTap();
@@ -88,12 +99,17 @@ class _TreeNodeState extends State<TreeNode>
                   child: Row(
                     children: [
                       _icon,
-                      Text(widget.label, style: TextStyle(color: _isSelected ? Colors.blue : Colors.grey),)
+                      Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Text(widget.label,
+                            style: TextStyle(
+                                color: _isSelected ? Colors.blue : Colors.grey,
+                                fontSize: 16)),
+                      )
                     ],
                   ),
                 ),
               ),
-              SizedBox(width: 4.0),
             ],
           ),
         ),

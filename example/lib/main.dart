@@ -14,10 +14,15 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: Text('Flutter Tree')),
         body: TreeView(
-          offsetLeft: 24,
+          offsetLeft: 30,
           data: treeData,
-          onIcon: () {
-            return null;
+          onIcon: (String id) {
+            print('id: ${id}');
+            return SizedBox.shrink();
+//            return IconButton(
+//              icon: Icon(Icons.star_border),
+//              iconSize: 24,
+//            );
           },
           onNodeTap: () {
             print('node');
