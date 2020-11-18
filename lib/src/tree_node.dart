@@ -39,7 +39,7 @@ class _TreeNodeState extends State<TreeNode>
   initState() {
     _isExpanded = widget.expanded;
     _icon =
-        widget.onIcon != null && widget.onIcon is Function && widget.id != null
+        widget.onIcon != null && widget.onIcon is Function && widget.id != null && widget.id.indexOf('v_') == 0
             ? widget.onIcon(widget.id)
             : SizedBox.shrink();
     super.initState();
@@ -57,15 +57,15 @@ class _TreeNodeState extends State<TreeNode>
         Padding(
           padding: const EdgeInsets.only(left: 12.0),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Visibility(
                 visible: children != null && children.length > 0,
                 child: Center(
                   child: GestureDetector(
                       child: SizedBox(
-                        width: 30,
-                        height: 30,
+                        width: 24,
+                        height: 24,
                         child: IconButton(
                           padding: EdgeInsets.zero,
                           icon: Icon(_isExpanded
@@ -90,19 +90,21 @@ class _TreeNodeState extends State<TreeNode>
                       _isExpanded = !_isExpanded;
                     });
                     if (widget.onNodeTap != null &&
-                        widget.onNodeTap is Function && widget.children.length == 0) {
+                        widget.onNodeTap is Function && widget.children.length == 0 && widget.id.indexOf('v_') == 0) {
                       widget.onNodeTap(widget.id ?? '');
                     }
                   },
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _icon,
+                      Padding(padding: EdgeInsets.only(top: 6, right: 2), child: _icon,),
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 4, 0, 4),
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
                           child: Text(widget.label,
                               style: TextStyle(
                                   color: widget.selected ? Colors.blue : Colors.grey,
+                                  height: 1.5,
                                   fontSize: 16)),
                         ),
                       ),
